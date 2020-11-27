@@ -35,7 +35,7 @@ const getById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const ranking = RankingService.getById(id);
+    const ranking = await RankingService.getById(id);
 
     return res.json(ranking);
   } catch (error) {
@@ -43,4 +43,35 @@ const getById = async (req, res) => {
   }
 };
 
-module.exports = { create, getAll, getById };
+const edit = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedRanking = await RankingService.edit(id, {
+      ...req.body,
+      updateAt: new Date(),
+    });
+
+    return res.json(updatedRanking);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const remove = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    return await RankingService.remove(id);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  create,
+  getAll,
+  getById,
+  edit,
+  remove,
+};
