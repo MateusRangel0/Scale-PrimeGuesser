@@ -10,4 +10,16 @@ const getAll = async (req, res) => {
   }
 };
 
-module.exports = { getAll };
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const ranking = RankingService.getById(id);
+
+    return res.json(ranking);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { getAll, getById };
