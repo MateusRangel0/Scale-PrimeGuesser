@@ -2,12 +2,23 @@ const { Ranking } = require("../Models");
 
 const getAll = async () => {
   try {
-    const ranking = await Ranking.findAll({
+    const rankings = await Ranking.findAll({
       order: [
         ["time", "ASC"],
         ["attempts", "ASC"],
       ],
     });
+
+    return rankings;
+  } catch (error) {
+    console.log(error.message);
+    throw error;
+  }
+};
+
+const getById = async (id) => {
+  try {
+    const ranking = await Ranking.findByPk(id);
 
     return ranking;
   } catch (error) {
@@ -15,8 +26,6 @@ const getAll = async () => {
     throw error;
   }
 };
-
-const getById = async () => {};
 
 const create = async () => {
   try {
