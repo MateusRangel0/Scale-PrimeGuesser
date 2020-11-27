@@ -10,18 +10,30 @@ module.exports = {
       playerName: {
         type: Sequelize.STRING,
         allowNull: false,
+        required: true,
       },
       time: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
+        required: true,
       },
       attempts: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        required: true,
       },
       primeNumber: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        required: true,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        required: true,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        required: true,
       },
     }),
 

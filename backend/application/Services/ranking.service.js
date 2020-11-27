@@ -1,4 +1,4 @@
-const { Ranking } = require("../models/");
+const { Ranking } = require("../Models");
 
 const getAll = async () => {
   try {
