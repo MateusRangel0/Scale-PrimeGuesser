@@ -4,21 +4,18 @@ module.exports = {
     res.json(content);
   },
 
-  badRequest(res, message, next) {
+  badRequest(res, message) {
     res.status(400);
     res.json({ Error: message });
-    if (next) return next(new Error([message]));
   },
 
-  internalError(res, error, next) {
+  internalError(res, error) {
     res.status(500);
     res.json({ Error: error.stack || error });
-    if (next) return next(new Error([error]));
   },
 
-  notFound(res, error, next) {
+  notFound(res, error) {
     res.status(404);
     res.json({ Error: error.stack || error });
-    if (next) return next(new Error([error]));
   },
 };
