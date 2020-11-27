@@ -1,5 +1,16 @@
 const { Ranking } = require("../Models");
 
+const create = async (data) => {
+  try {
+    const newRanking = await Ranking.create(data);
+
+    return newRanking;
+  } catch (error) {
+    console.log(error.message);
+    throw error;
+  }
+};
+
 const getAll = async () => {
   try {
     const rankings = await Ranking.findAll({
@@ -27,19 +38,14 @@ const getById = async (id) => {
   }
 };
 
-const create = async () => {
-  try {
-  } catch (error) {}
-};
-
 const edit = async () => {};
 
 const remove = async () => {};
 
 module.exports = {
+  create,
   getAll,
   getById,
-  create,
   edit,
   remove,
 };
