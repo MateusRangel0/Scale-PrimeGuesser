@@ -11,18 +11,20 @@ const create = async (data) => {
   }
 };
 
-const getAll = async (query) => {
+const getAll = async (page, pageSize) => {
   try {
-    const page = parseInt(query.page, 10);
-    const pageSize = parseInt(query.pageSize, 10);
     let offset = null;
     let rankings = null;
 
-    if (page && pageSize) offset = (page - 1) * pageSize;
+    if (page && pageSize) {
+      pageParse = parseInt(page, 10);
+      pageSizeParse = parseInt(pageSize, 10);
+      offset = (pageParse - 1) * pageSizeParse;
+    }
 
     if (offset !== null) {
       const options = {
-        limit: pageSize,
+        limit: pageSizeParse,
         offset,
         order: [
           ["time", "ASC"],
@@ -32,7 +34,7 @@ const getAll = async (query) => {
 
       rankings = await Ranking.findAll(options);
 
-      rankings.pages = Math.ceil(rankings.count / pageSize);
+      rankings.pages = Math.ceil(rankings.count / pageSizeParse);
     } else {
       rankings = await Ranking.findAll({
         order: [
@@ -85,7 +87,7 @@ const remove = async (id) => {
 
     if (!ranking) throw new Error({ message: "Ranking não encontrado" });
 
-    await ranking.destroy();
+    return ranking.destroy();
   } catch (error) {
     console.log(error.message);
     throw error;
