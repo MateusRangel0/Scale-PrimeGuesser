@@ -11,14 +11,36 @@ const create = async (data) => {
   }
 };
 
-const getAll = async () => {
+const getAll = async (query) => {
   try {
-    const rankings = await Ranking.findAll({
-      order: [
-        ["time", "ASC"],
-        ["attempts", "ASC"],
-      ],
-    });
+    const page = parseInt(query.page, 10);
+    const pageSize = parseInt(query.pageSize, 10);
+    let offset = null;
+    let rankings = null;
+
+    if (page && pageSize) offset = (page - 1) * pageSize;
+
+    if (offset !== null) {
+      const options = {
+        limit: pageSize,
+        offset,
+        order: [
+          ["time", "ASC"],
+          ["attempts", "ASC"],
+        ],
+      };
+
+      rankings = await Ranking.findAll(options);
+
+      rankings.pages = Math.ceil(rankings.count / pageSize);
+    } else {
+      rankings = await Ranking.findAll({
+        order: [
+          ["time", "ASC"],
+          ["attempts", "ASC"],
+        ],
+      });
+    }
 
     return rankings;
   } catch (error) {

@@ -31,7 +31,7 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const rankings = await RankingService.getAll();
+    const rankings = await RankingService.getAll(req.query);
 
     return ResponseService.ok(res, rankings);
   } catch (error) {
