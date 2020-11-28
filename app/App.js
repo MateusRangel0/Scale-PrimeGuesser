@@ -1,23 +1,15 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+
+import { Container } from "./src/utils/generalStyles";
+import Routes from "./src/routes";
 
 // console.disableYellowBox = true;
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>I'm alive :)</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Container>
+      <Text>I'm alive :D</Text>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
