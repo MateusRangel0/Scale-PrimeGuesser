@@ -9,10 +9,11 @@ import {
   getDigitsProduct,
   getDivisionRest,
 } from "../../utils/generalFunctions";
-import { NEXT_NUMBER_CONDITION } from "../../utils/constants";
 
 // components
 import ErrorModal from "../../components/Game/ErrorModal";
+import Timer from "../../components/Game/Timer";
+import ActionButtons from "../../components/Game/ActionButtons";
 
 // styles
 import {
@@ -21,11 +22,12 @@ import {
   TextContainer,
   Tittle,
 } from "../../utils/generalStyles";
-import { ConditionButton } from "./style";
 
 export default function GameClues({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [calledNumbers, setCalledNumbers] = useState([]);
+  const [activeTimer, setActiveTimer] = useState(true);
+  const [timerReload, setTimerReload] = useState(false);
   const [primes, setPrimes] = useState([]);
   const [attempts, setAttempts] = useState(1);
   const [clues, setClues] = useState({
@@ -33,7 +35,7 @@ export default function GameClues({ navigation, route }) {
     product: 0,
     rest: 0,
   });
-  const [valueInfo, setvalueInfo] = useState({
+  const [valueInfo, setValueInfo] = useState({
     indexMin: 0,
     indexMax: 0,
     currentValue: 0,
@@ -47,6 +49,15 @@ export default function GameClues({ navigation, route }) {
     if (attempts === 1) loadPrimes();
   }, [attempts]);
 
+  function reset() {
+    setAttempts(1);
+    setClues({ sum: 0, product: 0, rest: 0 });
+    setCalledNumbers([]);
+    setModalVisible(false);
+    setTimerReload(true);
+    setActiveTimer(true);
+  }
+
   async function loadPrimes() {
     const primesData = JSON.parse(await AsyncStorage.getItem("primes"));
     setPrimes(primesData);
@@ -55,19 +66,12 @@ export default function GameClues({ navigation, route }) {
       primesData.length - 1,
       primesData
     );
-    setvalueInfo({
+    setValueInfo({
       indexMin: 0,
       indexMax: primesData.length - 1,
       currentValue: newCurrentValue,
     });
     setCalledNumbers([...calledNumbers, newCurrentValue]);
-  }
-
-  function reset() {
-    setAttempts(1);
-    setClues({ sum: 0, product: 0, rest: 0 });
-    setCalledNumbers([]);
-    setModalVisible(false);
   }
 
   function getCurrentValue(min, max, primesArray) {
@@ -78,41 +82,10 @@ export default function GameClues({ navigation, route }) {
       index = Math.floor((max + min) / 2);
     }
     const newPrime = primesArray[index];
-    if (calledNumbers.includes(newPrime)) return setModalVisible(true);
-    else return newPrime;
-  }
-
-  function handleMissNumber(condition) {
-    const newValue = {
-      ...valueInfo,
-    };
-
-    if (condition === NEXT_NUMBER_CONDITION.DOWN) {
-      const newIndexMax = primes.indexOf(valueInfo.currentValue) - 1;
-      if (newValue.indexMax === newIndexMax || newIndexMax < 0) {
-        setModalVisible(true);
-      } else {
-        newValue.indexMax = newIndexMax;
-      }
-    } else {
-      const newIndexMin = primes.indexOf(valueInfo.currentValue) + 1;
-      if (
-        newValue.indexMin === newIndexMin ||
-        newIndexMin > primes.length - 1
-      ) {
-        setModalVisible(true);
-      } else {
-        newValue.indexMin = newIndexMin;
-      }
-    }
-    newValue.currentValue = getCurrentValue(
-      newValue.indexMin,
-      newValue.indexMax,
-      primes
-    );
-    setCalledNumbers([...calledNumbers, newValue.currentValue]);
-    setvalueInfo(newValue);
-    setAttempts(attempts + 1);
+    if (calledNumbers.includes(newPrime)) {
+      setActiveTimer(false);
+      return setModalVisible(true);
+    } else return newPrime;
   }
 
   function updatePrimes(newPrimes) {
@@ -123,13 +96,14 @@ export default function GameClues({ navigation, route }) {
         newPrimes.length - 1,
         newPrimes
       );
-      setvalueInfo({
+      setValueInfo({
         indexMin: 0,
         indexMax: newPrimes.length - 1,
         currentValue: newCurrentValue,
       });
       setAttempts(attempts + 1);
     } else {
+      setActiveTimer(false);
       setModalVisible(true);
     }
   }
@@ -155,6 +129,18 @@ export default function GameClues({ navigation, route }) {
     updatePrimes(newPrimes);
   }
 
+  function correctNumber() {
+    setActiveTimer(false);
+  }
+
+  function finishGame(time) {
+    if (!isModalVisible) {
+      console.log(time);
+    } else {
+      console.log("error :[");
+    }
+  }
+
   return (
     <Container>
       <ErrorModal
@@ -163,32 +149,32 @@ export default function GameClues({ navigation, route }) {
         onClose={() => reset()}
         buttonLabel={"Reiniciar"}
       />
+
+      <Timer
+        active={activeTimer}
+        onFinish={(time) => finishGame(time)}
+        reload={timerReload}
+        setReload={setTimerReload}
+      />
+
       <InfoContainer>
         <Tittle>Vamos lá {playerInfo.name}</Tittle>
         <TextContainer>Você pensou no número</TextContainer>
         <TextContainer>{primes.length && valueInfo.currentValue}</TextContainer>
-        <View
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-between",
-          }}
-        >
-          <ConditionButton
-            onPress={() => handleMissNumber(NEXT_NUMBER_CONDITION.DOWN)}
-          >
-            <Text>MENOR</Text>
-          </ConditionButton>
 
-          <ConditionButton>
-            <Text>ACERTOU</Text>
-          </ConditionButton>
-          <ConditionButton
-            onPress={() => handleMissNumber(NEXT_NUMBER_CONDITION.UPPER)}
-          >
-            <Text>MAIOR</Text>
-          </ConditionButton>
-        </View>
+        <ActionButtons
+          primes={primes}
+          valueInfo={valueInfo}
+          calledNumbers={calledNumbers}
+          attempts={attempts}
+          setModalVisible={setModalVisible}
+          setValueInfo={setValueInfo}
+          setAttempts={setAttempts}
+          setCalledNumbers={setCalledNumbers}
+          getCurrentValue={getCurrentValue}
+          correctNumberFunction={correctNumber}
+        />
+
         <Text>{attempts}</Text>
         <View
           style={{
