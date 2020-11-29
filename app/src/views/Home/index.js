@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   Container,
@@ -9,7 +10,7 @@ import {
 } from "../../utils/generalStyles";
 import Button from "../../components/General/Button";
 import TextField from "../../components/General/TextField";
-import { View } from "react-native";
+import { sieve } from "../../utils/primes";
 
 export default function Home({ navigation }) {
   const [inputs, setInputs] = useState({ playerName: "" });
@@ -27,6 +28,22 @@ export default function Home({ navigation }) {
       navigation.navigate("GameClues", { name: inputs.playerName });
     }
   }
+
+  async function generatePrimes() {
+    try {
+      const value = await AsyncStorage.getItem("primes");
+      if (!value) {
+        const jsonPrimes = JSON.stringify(sieve());
+        await AsyncStorage.setItem("primes", jsonPrimes);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  useEffect(() => {
+    generatePrimes();
+  }, []);
 
   return (
     <Container>
@@ -57,7 +74,7 @@ export default function Home({ navigation }) {
       </Footer>
       <Footer left>
         <TextContainer>
-          <Button label={"Números Primos"} />
+          <Button onClick={handleRanking} label={"Números Primos"} />
         </TextContainer>
       </Footer>
     </Container>
