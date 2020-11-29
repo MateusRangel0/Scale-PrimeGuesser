@@ -8,7 +8,7 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const InfoContainer = styled.View`
-  width: 80%;
+  width: 90%;
   align-items: center;
 `;
 
