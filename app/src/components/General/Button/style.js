@@ -1,20 +1,26 @@
 import styled from "styled-components/native";
 
 export const ButtonContainer = styled.View`
-  margin-top: 10px;
   align-items: center;
+  margin-top: 10px;
 `;
 
 export const NormalButton = styled.TouchableOpacity`
-  margin-top: 10px;
-  background-color: #9b59b6;
-  border-radius: 3px;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 40px;
+
+  width: auto;
+  height: 50px;
+
+  margin-top: 10px;
+  border-radius: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  background-color: ${(props) => (props.disabled ? "#9e9e9e" : "#9b59b6")};
 `;
 
 export const Label = styled.Text`
-  font-size: 16px;
+  font-size: ${(props) => (props.disabled ? "16px" : "17px")};
+  font-weight: ${(props) => (props.disabled ? "400" : "600")};
 `;
