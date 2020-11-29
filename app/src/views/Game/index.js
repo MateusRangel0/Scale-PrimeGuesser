@@ -1,25 +1,31 @@
+// libs
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
-import Modal from "react-native-modal";
+import { View, Text, TextInput } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// utils
+import {
+  getDigitsSum,
+  getDigitsProduct,
+  getDivisionRest,
+} from "../../utils/generalFunctions";
+import { NEXT_NUMBER_CONDITION } from "../../utils/constants";
+
+// components
+import ErrorModal from "../../components/Game/ErrorModal";
+
+// styles
 import {
   Container,
   InfoContainer,
   TextContainer,
   Tittle,
 } from "../../utils/generalStyles";
-import { ConditionButton, ModalBody, Label } from "./style";
-
-import { NEXT_NUMBER_CONDITION } from "../../utils/constants";
-import {
-  getDigitsSum,
-  getDigitsProduct,
-  getDivisionRest,
-} from "../../utils/generalFunctions";
+import { ConditionButton } from "./style";
 
 export default function GameClues({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [calledNumbers, setCalledNumbers] = useState([]);
   const [primes, setPrimes] = useState([]);
   const [attempts, setAttempts] = useState(1);
   const [clues, setClues] = useState({
@@ -54,11 +60,13 @@ export default function GameClues({ navigation, route }) {
       indexMax: primesData.length - 1,
       currentValue: newCurrentValue,
     });
+    setCalledNumbers([...calledNumbers, newCurrentValue]);
   }
 
   function reset() {
     setAttempts(1);
     setClues({ sum: 0, product: 0, rest: 0 });
+    setCalledNumbers([]);
     setModalVisible(false);
   }
 
@@ -69,7 +77,9 @@ export default function GameClues({ navigation, route }) {
     } else {
       index = Math.floor((max + min) / 2);
     }
-    return primesArray[index];
+    const newPrime = primesArray[index];
+    if (calledNumbers.includes(newPrime)) return setModalVisible(true);
+    else return newPrime;
   }
 
   function handleMissNumber(condition) {
@@ -100,6 +110,7 @@ export default function GameClues({ navigation, route }) {
       newValue.indexMax,
       primes
     );
+    setCalledNumbers([...calledNumbers, newValue.currentValue]);
     setvalueInfo(newValue);
     setAttempts(attempts + 1);
   }
@@ -146,13 +157,12 @@ export default function GameClues({ navigation, route }) {
 
   return (
     <Container>
-      <Modal isVisible={isModalVisible}>
-        <ModalBody>
-          <Label>Não há mais números válidos. Tente novamente.</Label>
-
-          <Button title="Reiniciar Jogo" onPress={() => reset()} />
-        </ModalBody>
-      </Modal>
+      <ErrorModal
+        isVisible={isModalVisible}
+        label={"Não há mais números válidos. Tente novamente."}
+        onClose={() => reset()}
+        buttonLabel={"Reiniciar"}
+      />
       <InfoContainer>
         <Tittle>Vamos lá {playerInfo.name}</Tittle>
         <TextContainer>Você pensou no número</TextContainer>
