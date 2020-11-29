@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { View, Text, TextInput } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text } from "react-native";
 
 import {
   Container,
@@ -8,18 +8,28 @@ import {
   TextContainer,
   Tittle,
 } from "../../utils/generalStyles";
-import { NEXT_NUMBER_CONDITION } from "../../utils/constants";
 import { ConditionButton } from "./style";
-import TextField from "../../components/General/TextField";
+
+import { NEXT_NUMBER_CONDITION } from "../../utils/constants";
+import {
+  getDigitsSum,
+  getDigitsProduct,
+  getDivisionRest,
+} from "../../utils/generalFunctions";
 
 export default function GameClues({ navigation, route }) {
   const [primes, setPrimes] = useState([]);
+  const [attempts, setAttempts] = useState(1);
+  const [clues, setClues] = useState({
+    sum: 0,
+    product: 0,
+    rest: 0,
+  });
   const [valueInfo, setvalueInfo] = useState({
     indexMin: 0,
     indexMax: 0,
     currentValue: 0,
   });
-  const [attempts, setAttempts] = useState(1);
 
   const playerInfo = {
     name: route.params.name,
@@ -29,19 +39,19 @@ export default function GameClues({ navigation, route }) {
     async function loadPrimes() {
       const primesData = JSON.parse(await AsyncStorage.getItem("primes"));
       setPrimes(primesData);
-      const newCurrentValue = getCurrentValue(0, primesData.length, primesData);
+      const newCurrentValue = getCurrentValue(
+        0,
+        primesData.length - 1,
+        primesData
+      );
       setvalueInfo({
         ...valueInfo,
-        indexMax: primesData.length,
+        indexMax: primesData.length - 1,
         currentValue: newCurrentValue,
       });
     }
     loadPrimes();
   }, []);
-
-  useEffect(() => {
-    console.log(valueInfo);
-  }, [valueInfo]);
 
   function getCurrentValue(min, max, primesArray) {
     let index = 0;
@@ -50,9 +60,6 @@ export default function GameClues({ navigation, route }) {
     } else {
       index = Math.floor((max + min) / 2);
     }
-    console.log("primo", primesArray[index]);
-    console.log("index", index);
-
     return primesArray[index];
   }
 
@@ -73,6 +80,44 @@ export default function GameClues({ navigation, route }) {
     );
     setvalueInfo(newValue);
     setAttempts(attempts + 1);
+  }
+
+  function updatePrimes(newPrimes) {
+    if (newPrimes.length > 0) {
+      setPrimes(newPrimes);
+      const newCurrentValue = getCurrentValue(
+        0,
+        newPrimes.length - 1,
+        newPrimes
+      );
+      setvalueInfo({
+        indexMin: 0,
+        indexMax: newPrimes.length - 1,
+        currentValue: newCurrentValue,
+      });
+      setAttempts(attempts + 1);
+    }
+  }
+
+  function handleClueSum(sum) {
+    const newPrimes = primes.filter(
+      (prime) => getDigitsSum(prime) === Number(sum)
+    );
+    updatePrimes(newPrimes);
+  }
+
+  function handleClueProduct(product) {
+    const newPrimes = primes.filter(
+      (prime) => getDigitsProduct(prime) === Number(product)
+    );
+    updatePrimes(newPrimes);
+  }
+
+  function handleClueRest(rest) {
+    const newPrimes = primes.filter(
+      (prime) => getDivisionRest(prime) === Number(rest)
+    );
+    updatePrimes(newPrimes);
   }
 
   return (
@@ -104,28 +149,33 @@ export default function GameClues({ navigation, route }) {
           </ConditionButton>
         </View>
         <Text>{attempts}</Text>
-        {/* 
-        <TextField
-          placeholder={"Soma dos digitos"}
-          keyboardType={"decimal-pad"}
-          inputName={"sum"}
-          input={clues} 
-          setInput={setClues}
-        />
-        <TextField
+        <View
+          style={{
+            flexDirection: "row",
+          }}
+        >
+          <TextInput
+            placeholder={"Soma dos digitos"}
+            keyboardType={"decimal-pad"}
+            onChangeText={(value) => setClues({ ...clues, sum: value })}
+            value={clues.sum}
+            onSubmitEditing={() => handleClueSum(clues.sum)}
+          />
+        </View>
+        <TextInput
           placeholder={"Produto dos digitos"}
           keyboardType={"decimal-pad"}
-          inputName={"product"}
-          input={clues}
-          setInput={setClues}
+          onChangeText={(value) => setClues({ ...clues, product: value })}
+          value={clues.product}
+          onSubmitEditing={() => handleClueProduct(clues.product)}
         />
-        <TextField
+        <TextInput
           placeholder={"Resto da divisão por 7"}
           keyboardType={"decimal-pad"}
-          inputName={"rest"}
-          input={clues}
-          setInput={setClues}
-        /> */}
+          onChangeText={(value) => setClues({ ...clues, rest: value })}
+          value={clues.rest}
+          onSubmitEditing={() => handleClueRest(clues.rest)}
+        />
       </InfoContainer>
     </Container>
   );
