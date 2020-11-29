@@ -15,7 +15,6 @@ export default function Ranking({ navigation }) {
   useEffect(() => {
     async function getRankings() {
       const { data } = await api.get(`/ranking`);
-      console.log(data);
     }
     getRankings();
   }, []);
