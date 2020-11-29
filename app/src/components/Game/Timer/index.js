@@ -7,7 +7,7 @@ import { formatTime } from "../../../utils/time";
 // styles
 import { Display } from "./style";
 
-export default function Timer({ active, onFinish }) {
+export default function Timer({ active, onFinish, reload, setReload }) {
   const [time, setTime] = useState({ minutes: 0, seconds: 0, ms: 0 });
   const [timerActive, setTimerActive] = useState(false);
 
@@ -30,6 +30,10 @@ export default function Timer({ active, onFinish }) {
     } else if (timerActive && !active) {
       clearInterval(interval);
       onFinish(time);
+    }
+    if (reload) {
+      setTime({ minutes: 0, seconds: 0, ms: 0 });
+      setReload(false);
     }
     return () => clearInterval(interval);
   }, [active, time]);
