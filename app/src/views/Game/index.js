@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Button } from "react-native";
+import Modal from "react-native-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
@@ -8,7 +9,7 @@ import {
   TextContainer,
   Tittle,
 } from "../../utils/generalStyles";
-import { ConditionButton } from "./style";
+import { ConditionButton, ModalBody, Label } from "./style";
 
 import { NEXT_NUMBER_CONDITION } from "../../utils/constants";
 import {
@@ -18,6 +19,7 @@ import {
 } from "../../utils/generalFunctions";
 
 export default function GameClues({ navigation, route }) {
+  const [isModalVisible, setModalVisible] = useState(false);
   const [primes, setPrimes] = useState([]);
   const [attempts, setAttempts] = useState(1);
   const [clues, setClues] = useState({
@@ -36,22 +38,29 @@ export default function GameClues({ navigation, route }) {
   };
 
   useEffect(() => {
-    async function loadPrimes() {
-      const primesData = JSON.parse(await AsyncStorage.getItem("primes"));
-      setPrimes(primesData);
-      const newCurrentValue = getCurrentValue(
-        0,
-        primesData.length - 1,
-        primesData
-      );
-      setvalueInfo({
-        ...valueInfo,
-        indexMax: primesData.length - 1,
-        currentValue: newCurrentValue,
-      });
-    }
-    loadPrimes();
-  }, []);
+    if (attempts === 1) loadPrimes();
+  }, [attempts]);
+
+  async function loadPrimes() {
+    const primesData = JSON.parse(await AsyncStorage.getItem("primes"));
+    setPrimes(primesData);
+    const newCurrentValue = getCurrentValue(
+      0,
+      primesData.length - 1,
+      primesData
+    );
+    setvalueInfo({
+      indexMin: 0,
+      indexMax: primesData.length - 1,
+      currentValue: newCurrentValue,
+    });
+  }
+
+  function reset() {
+    setAttempts(1);
+    setClues({ sum: 0, product: 0, rest: 0 });
+    setModalVisible(false);
+  }
 
   function getCurrentValue(min, max, primesArray) {
     let index = 0;
@@ -69,9 +78,22 @@ export default function GameClues({ navigation, route }) {
     };
 
     if (condition === NEXT_NUMBER_CONDITION.DOWN) {
-      newValue.indexMax = primes.indexOf(valueInfo.currentValue) - 1;
+      const newIndexMax = primes.indexOf(valueInfo.currentValue) - 1;
+      if (newValue.indexMax === newIndexMax || newIndexMax < 0) {
+        setModalVisible(true);
+      } else {
+        newValue.indexMax = newIndexMax;
+      }
     } else {
-      newValue.indexMin = primes.indexOf(valueInfo.currentValue) + 1;
+      const newIndexMin = primes.indexOf(valueInfo.currentValue) + 1;
+      if (
+        newValue.indexMin === newIndexMin ||
+        newIndexMin > primes.length - 1
+      ) {
+        setModalVisible(true);
+      } else {
+        newValue.indexMin = newIndexMin;
+      }
     }
     newValue.currentValue = getCurrentValue(
       newValue.indexMin,
@@ -96,6 +118,8 @@ export default function GameClues({ navigation, route }) {
         currentValue: newCurrentValue,
       });
       setAttempts(attempts + 1);
+    } else {
+      setModalVisible(true);
     }
   }
 
@@ -122,6 +146,13 @@ export default function GameClues({ navigation, route }) {
 
   return (
     <Container>
+      <Modal isVisible={isModalVisible}>
+        <ModalBody>
+          <Label>Não há mais números válidos. Tente novamente.</Label>
+
+          <Button title="Reiniciar Jogo" onPress={() => reset()} />
+        </ModalBody>
+      </Modal>
       <InfoContainer>
         <Tittle>Vamos lá {playerInfo.name}</Tittle>
         <TextContainer>Você pensou no número</TextContainer>

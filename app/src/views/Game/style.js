@@ -18,4 +18,19 @@ export const ConditionButton = styled.TouchableOpacity`
 export const Label = styled.Text`
   font-size: ${(props) => (props.disabled ? "16px" : "17px")};
   font-weight: ${(props) => (props.disabled ? "400" : "600")};
+
+  text-align: center;
+`;
+
+export const ModalBody = styled.View`
+  height: 30%;
+  width: 70%;
+
+  background-color: white;
+  border-radius: 10px;
+
+  align-self: center;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 4%;
 `;
