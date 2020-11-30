@@ -32,6 +32,7 @@ export default function GameClues({ navigation, route }) {
   const [timerReload, setTimerReload] = useState(false);
   const [primes, setPrimes] = useState([]);
   const [attempts, setAttempts] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [clues, setClues] = useState({
     sum: 0,
     product: 0,
@@ -107,8 +108,10 @@ export default function GameClues({ navigation, route }) {
       if (!playerName || !time || !attempts || !primeNumber) {
         return setModalVisible(true);
       }
+      setLoading(true);
       await Api.post(`/ranking`, body);
       return navigation.replace("Result", body);
+      setLoading(false);
     } catch (error) {
       setModalVisible(true);
     }
@@ -163,6 +166,7 @@ export default function GameClues({ navigation, route }) {
             correctNumberFunction={correctNumber}
             minIndex={Number(valueInfo.indexMin)}
             maxIndex={Number(valueInfo.indexMax)}
+            loading={loading}
           />
 
           <Clues

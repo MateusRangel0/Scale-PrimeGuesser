@@ -21,6 +21,7 @@ export default function ActionButtons({
   correctNumberFunction,
   maxIndex,
   minIndex,
+  loading,
 }) {
   function handleMissNumber(condition) {
     if (maxIndex === minIndex) {
@@ -70,6 +71,7 @@ export default function ActionButtons({
       <ConditionButton
         onPress={() => correctNumberFunction()}
         isCorrectButton={true}
+        disabled={loading}
       >
         <ButtonLabel>ACERTOU</ButtonLabel>
       </ConditionButton>
