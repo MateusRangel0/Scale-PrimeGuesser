@@ -26,7 +26,9 @@ export const LeftInfo = styled.View`
 
 export const RightInfo = styled.View``;
 
-export const Time = styled.Text``;
+export const Time = styled.Text`
+  font-weight: bold;
+`;
 
 export const Position = styled.View`
   border-radius: 50px;
@@ -46,8 +48,10 @@ export const PlayerInfo = styled.View`
 `;
 
 export const PlayerName = styled.Text`
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
 `;
 
-export const Attempts = styled.Text``;
+export const Attempts = styled.Text`
+  font-weight: bold;
+`;
