@@ -1,5 +1,8 @@
 import styled from "styled-components/native";
-import { StatusBar } from "react-native";
+import { StatusBar, Dimensions } from "react-native";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export const Container = styled.SafeAreaView`
   flex: 1;
@@ -13,6 +16,9 @@ export const InfoContainer = styled.View`
   width: 90%;
   align-items: center;
   justify-content: center;
+
+  width: 100%;
+  height: ${windowHeight}px;
 `;
 
 export const TextContainer = styled.Text`
@@ -47,4 +53,8 @@ export const Header = styled.View`
 
   margin-bottom: 15px;
   margin-top: ${StatusBar.currentHeight}px;
+`;
+
+export const ScrollContainer = styled.ScrollView`
+  width: 100%;
 `;
