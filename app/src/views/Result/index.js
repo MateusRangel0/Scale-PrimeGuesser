@@ -37,8 +37,8 @@ export default function Result({ navigation, route }) {
       </InfoContainer>
       <TextContainer isNumber>Tempo levado: {player.time}</TextContainer>
       <Footer>
-        <Button onClick={handleHome} label={"Página inicial"} />
-        <Button onClick={handleRanking} label={"Ver Ranking"} />
+        <Button onClick={handleHome} label={"Início"} />
+        <Button onClick={handleRanking} label={"Ranking"} />
       </Footer>
     </Container>
   );
