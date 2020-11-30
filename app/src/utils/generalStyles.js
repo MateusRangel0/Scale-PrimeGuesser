@@ -29,3 +29,12 @@ export const Footer = styled.View`
   bottom: 10%;
   left: ${(props) => (props.left ? "8%" : "65%")};
 `;
+
+export const Header = styled.View`
+  height: 64px;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 15px;
+`;
