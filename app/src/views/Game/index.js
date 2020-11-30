@@ -1,6 +1,5 @@
 // libs
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // services
@@ -21,7 +20,9 @@ import {
   InfoContainer,
   TextContainer,
   Tittle,
+  Header,
 } from "../../utils/generalStyles";
+import { GeneralTextContainer, Attempts } from "./style";
 
 export default function GameClues({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -115,31 +116,36 @@ export default function GameClues({ navigation, route }) {
   async function finishGame(time) {
     if (!isModalVisible) {
       submitScore(time);
-    } else {
-      console.log("error :[");
     }
   }
 
   return (
     <Container>
+      <Header>
+        <Tittle>Prime Guesser!</Tittle>
+      </Header>
       <ErrorModal
         isVisible={isModalVisible}
         label={"Algo deu errado nessa rodada. Tente novamente."}
         onClose={() => reset()}
         buttonLabel={"Reiniciar"}
       />
-
       <Timer
         active={activeTimer}
         onFinish={(time) => finishGame(time)}
         reload={timerReload}
         setReload={setTimerReload}
       />
+      <Attempts>Tentativa: {attempts}</Attempts>
 
       <InfoContainer>
-        <Tittle>Vamos lá {playerInfo.name}</Tittle>
-        <TextContainer>Você pensou no número</TextContainer>
-        <TextContainer>{primes.length && valueInfo.currentValue}</TextContainer>
+        <GeneralTextContainer>
+          <Tittle>Vamos lá {playerInfo.name}</Tittle>
+          <TextContainer>Você pensou no número:</TextContainer>
+          <TextContainer isNumber={true}>
+            {primes.length && valueInfo.currentValue}
+          </TextContainer>
+        </GeneralTextContainer>
 
         <ActionButtons
           primes={primes}
@@ -172,8 +178,6 @@ export default function GameClues({ navigation, route }) {
           minIndex={Number(valueInfo.indexMin)}
           maxIndex={Number(valueInfo.indexMax)}
         />
-
-        <Text>{attempts}</Text>
       </InfoContainer>
     </Container>
   );
