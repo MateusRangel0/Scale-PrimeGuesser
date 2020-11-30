@@ -9,4 +9,5 @@ export const GeneralTextContainer = styled.View`
 
 export const Attempts = styled.Text`
   font-size: 16px;
+  text-align: center;
 `;

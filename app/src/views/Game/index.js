@@ -21,6 +21,7 @@ import {
   TextContainer,
   Tittle,
   Header,
+  ScrollContainer,
 } from "../../utils/generalStyles";
 import { GeneralTextContainer, Attempts } from "./style";
 
@@ -130,55 +131,57 @@ export default function GameClues({ navigation, route }) {
         onClose={() => reset()}
         buttonLabel={"Reiniciar"}
       />
-      <Timer
-        active={activeTimer}
-        onFinish={(time) => finishGame(time)}
-        reload={timerReload}
-        setReload={setTimerReload}
-      />
-      <Attempts>Tentativa: {attempts}</Attempts>
-
-      <InfoContainer>
-        <GeneralTextContainer>
-          <Tittle>Vamos lá {playerInfo.name}</Tittle>
-          <TextContainer>Você pensou no número:</TextContainer>
-          <TextContainer isNumber={true}>
-            {primes.length && valueInfo.currentValue}
-          </TextContainer>
-        </GeneralTextContainer>
-
-        <ActionButtons
-          primes={primes}
-          valueInfo={valueInfo}
-          calledNumbers={calledNumbers}
-          attempts={attempts}
-          setModalVisible={setModalVisible}
-          setValueInfo={setValueInfo}
-          setAttempts={setAttempts}
-          setCalledNumbers={setCalledNumbers}
-          setActiveTimer={setActiveTimer}
-          getCurrentValue={getCurrentValue}
-          correctNumberFunction={correctNumber}
-          minIndex={Number(valueInfo.indexMin)}
-          maxIndex={Number(valueInfo.indexMax)}
-        />
-
-        <Clues
-          primes={primes}
-          setPrimes={setPrimes}
-          attempts={attempts}
-          clues={clues}
-          getCurrentValue={getCurrentValue}
-          setAttempts={setAttempts}
-          setModalVisible={setModalVisible}
-          setValueInfo={setValueInfo}
-          setActiveTimer={setActiveTimer}
-          setClues={setClues}
+      <ScrollContainer>
+        <Timer
+          active={activeTimer}
+          onFinish={(time) => finishGame(time)}
           reload={timerReload}
-          minIndex={Number(valueInfo.indexMin)}
-          maxIndex={Number(valueInfo.indexMax)}
+          setReload={setTimerReload}
         />
-      </InfoContainer>
+        <Attempts>Tentativa: {attempts}</Attempts>
+
+        <InfoContainer>
+          <GeneralTextContainer>
+            <Tittle>Vamos lá {playerInfo.name}</Tittle>
+            <TextContainer>Você pensou no número:</TextContainer>
+            <TextContainer isNumber={true}>
+              {primes.length && valueInfo.currentValue}
+            </TextContainer>
+          </GeneralTextContainer>
+
+          <ActionButtons
+            primes={primes}
+            valueInfo={valueInfo}
+            calledNumbers={calledNumbers}
+            attempts={attempts}
+            setModalVisible={setModalVisible}
+            setValueInfo={setValueInfo}
+            setAttempts={setAttempts}
+            setCalledNumbers={setCalledNumbers}
+            setActiveTimer={setActiveTimer}
+            getCurrentValue={getCurrentValue}
+            correctNumberFunction={correctNumber}
+            minIndex={Number(valueInfo.indexMin)}
+            maxIndex={Number(valueInfo.indexMax)}
+          />
+
+          <Clues
+            primes={primes}
+            setPrimes={setPrimes}
+            attempts={attempts}
+            clues={clues}
+            getCurrentValue={getCurrentValue}
+            setAttempts={setAttempts}
+            setModalVisible={setModalVisible}
+            setValueInfo={setValueInfo}
+            setActiveTimer={setActiveTimer}
+            setClues={setClues}
+            reload={timerReload}
+            minIndex={Number(valueInfo.indexMin)}
+            maxIndex={Number(valueInfo.indexMax)}
+          />
+        </InfoContainer>
+      </ScrollContainer>
     </Container>
   );
 }
