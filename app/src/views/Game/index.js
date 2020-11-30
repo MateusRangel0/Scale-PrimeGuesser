@@ -1,19 +1,13 @@
 // libs
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// utils
-import {
-  getDigitsSum,
-  getDigitsProduct,
-  getDivisionRest,
-} from "../../utils/generalFunctions";
 
 // components
 import ErrorModal from "../../components/Game/ErrorModal";
 import Timer from "../../components/Game/Timer";
 import ActionButtons from "../../components/Game/ActionButtons";
+import Clues from "../../components/Game/Clues";
 
 // styles
 import {
@@ -88,47 +82,6 @@ export default function GameClues({ navigation, route }) {
     } else return newPrime;
   }
 
-  function updatePrimes(newPrimes) {
-    if (newPrimes.length > 0) {
-      setPrimes(newPrimes);
-      const newCurrentValue = getCurrentValue(
-        0,
-        newPrimes.length - 1,
-        newPrimes
-      );
-      setValueInfo({
-        indexMin: 0,
-        indexMax: newPrimes.length - 1,
-        currentValue: newCurrentValue,
-      });
-      setAttempts(attempts + 1);
-    } else {
-      setActiveTimer(false);
-      setModalVisible(true);
-    }
-  }
-
-  function handleClueSum(sum) {
-    const newPrimes = primes.filter(
-      (prime) => getDigitsSum(prime) === Number(sum)
-    );
-    updatePrimes(newPrimes);
-  }
-
-  function handleClueProduct(product) {
-    const newPrimes = primes.filter(
-      (prime) => getDigitsProduct(prime) === Number(product)
-    );
-    updatePrimes(newPrimes);
-  }
-
-  function handleClueRest(rest) {
-    const newPrimes = primes.filter(
-      (prime) => getDivisionRest(prime) === Number(rest)
-    );
-    updatePrimes(newPrimes);
-  }
-
   function correctNumber() {
     setActiveTimer(false);
   }
@@ -171,38 +124,30 @@ export default function GameClues({ navigation, route }) {
           setValueInfo={setValueInfo}
           setAttempts={setAttempts}
           setCalledNumbers={setCalledNumbers}
+          setActiveTimer={setActiveTimer}
           getCurrentValue={getCurrentValue}
           correctNumberFunction={correctNumber}
+          minIndex={Number(valueInfo.indexMin)}
+          maxIndex={Number(valueInfo.indexMax)}
+        />
+
+        <Clues
+          primes={primes}
+          setPrimes={setPrimes}
+          attempts={attempts}
+          clues={clues}
+          getCurrentValue={getCurrentValue}
+          setAttempts={setAttempts}
+          setModalVisible={setModalVisible}
+          setValueInfo={setValueInfo}
+          setActiveTimer={setActiveTimer}
+          setClues={setClues}
+          reload={timerReload}
+          minIndex={Number(valueInfo.indexMin)}
+          maxIndex={Number(valueInfo.indexMax)}
         />
 
         <Text>{attempts}</Text>
-        <View
-          style={{
-            flexDirection: "row",
-          }}
-        >
-          <TextInput
-            placeholder={"Soma dos digitos"}
-            keyboardType={"decimal-pad"}
-            onChangeText={(value) => setClues({ ...clues, sum: value })}
-            value={clues.sum}
-            onSubmitEditing={() => handleClueSum(clues.sum)}
-          />
-        </View>
-        <TextInput
-          placeholder={"Produto dos digitos"}
-          keyboardType={"decimal-pad"}
-          onChangeText={(value) => setClues({ ...clues, product: value })}
-          value={clues.product}
-          onSubmitEditing={() => handleClueProduct(clues.product)}
-        />
-        <TextInput
-          placeholder={"Resto da divisão por 7"}
-          keyboardType={"decimal-pad"}
-          onChangeText={(value) => setClues({ ...clues, rest: value })}
-          value={clues.rest}
-          onSubmitEditing={() => handleClueRest(clues.rest)}
-        />
       </InfoContainer>
     </Container>
   );
