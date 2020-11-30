@@ -16,7 +16,7 @@ npm install
 ```
 
 <h3> Configuração do servidor </h3>
-  Primeiramente, você deverá configurar o serverIP com o ip da sua máquina local. Essa configuração permite que integre a API (que estará
+  Você deverá configurar o serverIP com o ip da sua máquina local. Essa configuração permite que integre a API (que estará
   rodando localmente) com o aplicativo. Para descobrir o ip da sua máquina (em sistemas linux), basta abrir o terminal e digitar:
   
   ```bash
