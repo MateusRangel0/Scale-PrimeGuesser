@@ -110,8 +110,8 @@ export default function GameClues({ navigation, route }) {
       }
       setLoading(true);
       await Api.post(`/ranking`, body);
-      return navigation.replace("Result", body);
-      setLoading(false);
+      navigation.replace("Result", body);
+      return setLoading(false);
     } catch (error) {
       setModalVisible(true);
     }
