@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const ButtonsContainer = styled.View`
-  flex: 1;
+  flex: 0.2;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
