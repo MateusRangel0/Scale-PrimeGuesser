@@ -11,6 +11,7 @@ import {
   InfoContainer,
   Tittle,
   Footer,
+  Header,
 } from "../../utils/generalStyles";
 
 export default function Result({ navigation, route }) {
@@ -21,18 +22,20 @@ export default function Result({ navigation, route }) {
   }
 
   function handleHome() {
-    navigation.replace("Home");
+    navigation.pop();
   }
 
   return (
     <Container>
+      <Header>
+        <Tittle>Resultado</Tittle>
+      </Header>
       <InfoContainer>
-        <Tittle>Consegui!</Tittle>
-        <TextContainer>
-          Eu consegui, {player.playerName}! Acertei o seu número{" "}
-          {player.primeNumber} e só levei {player.attempts} tentativa(s).
-        </TextContainer>
+        <Tittle>Eu consegui, {player.playerName}!</Tittle>
+        <TextContainer>Tentativas: {player.attempts}</TextContainer>
+        <TextContainer>Número: {player.primeNumber}</TextContainer>
       </InfoContainer>
+      <TextContainer isNumber>Tempo levado: {player.time}</TextContainer>
       <Footer>
         <Button onClick={handleHome} label={"Página inicial"} />
         <Button onClick={handleRanking} label={"Ver Ranking"} />
