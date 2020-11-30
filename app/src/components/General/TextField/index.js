@@ -10,6 +10,7 @@ export default function TextField({
   input,
   setInput,
   width,
+  onSubmitEditing,
 }) {
   return (
     <View>
@@ -18,6 +19,7 @@ export default function TextField({
         onChangeText={(value) => setInput({ ...input, [inputName]: value })}
         keyboardType={keyboardType}
         width={width}
+        onSubmitEditing={onSubmitEditing && onSubmitEditing}
       />
     </View>
   );
