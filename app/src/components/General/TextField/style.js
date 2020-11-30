@@ -11,5 +11,5 @@ export const Input = styled.TextInput`
   color: #495057;
   background-color: #fff;
   border: 1px solid #ced4da;
-  border-radius: 2px;
+  border-radius: 5px;
 `;
