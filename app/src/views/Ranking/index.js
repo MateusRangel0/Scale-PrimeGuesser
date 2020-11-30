@@ -1,31 +1,67 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { SafeAreaView, FlatList, Text } from "react-native";
 
-import api from "../../services/api";
+import Api from "../../services/api";
+
+import {
+  Card,
+  LeftInfo,
+  RightInfo,
+  Time,
+  Position,
+  PlayerInfo,
+  PlayerName,
+  Attempts,
+} from "./style";
 
 import {
   Container,
   InfoContainer,
   Tittle,
-  TextContainer,
+  Header,
 } from "../../utils/generalStyles";
-import Button from "../../components/General/Button";
 
 export default function Ranking({ navigation }) {
+  const [rankingData, setRankingData] = useState([]);
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     async function getRankings() {
-      const { data } = await api.get(`/ranking`);
+      const { data } = await Api.get(`/ranking?page=${page}&pageSize=10`);
+      if (data) setRankingData([...rankingData, ...data]);
     }
     getRankings();
-  }, []);
+  }, [page]);
+
+  function render({ item, index }) {
+    return (
+      <Card>
+        <LeftInfo>
+          <Position>{index + 1}</Position>
+          <PlayerInfo>
+            <PlayerName>{item.playerName}</PlayerName>
+            <Attempts>Tentativas: {item.attempts}</Attempts>
+          </PlayerInfo>
+        </LeftInfo>
+        <RightInfo>
+          <Time>{item.time}</Time>
+        </RightInfo>
+      </Card>
+    );
+  }
 
   return (
-    <View>
-      <Container>
-        <InfoContainer>
-          <Tittle>Ranking de Jogadores</Tittle>
-        </InfoContainer>
-      </Container>
-    </View>
+    <Container>
+      <Header>
+        <Tittle>Ranking de Jogadores</Tittle>
+      </Header>
+      <FlatList
+        keyExtractor={(_, index) => index.toString()}
+        data={rankingData}
+        renderItem={render}
+        onEndReached={() => setPage(page + 1)}
+        onEndReachedThreshold={0.5}
+      />
+    </Container>
   );
 }
