@@ -24,7 +24,7 @@ export default function Home({ navigation }) {
   }
 
   function onSubmit() {
-    if (isValidInputs) {
+    if (isValidInputs()) {
       navigation.navigate("GameClues", { name: inputs.playerName });
     }
   }
