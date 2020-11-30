@@ -1,16 +1,24 @@
+// libs
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// components
+import Button from "../../components/General/Button";
+import TextField from "../../components/General/TextField";
+
+// utils
+import { sieve } from "../../utils/primes";
+
+// style
 import {
   Container,
   TextContainer,
   InfoContainer,
   Tittle,
   Footer,
+  Header,
 } from "../../utils/generalStyles";
-import Button from "../../components/General/Button";
-import TextField from "../../components/General/TextField";
-import { sieve } from "../../utils/primes";
+import { GeneralContainer, GeneralTextsContainer } from "./style";
 
 export default function Home({ navigation }) {
   const [inputs, setInputs] = useState({ playerName: "" });
@@ -48,34 +56,33 @@ export default function Home({ navigation }) {
   return (
     <Container>
       <InfoContainer>
-        <Tittle>Prime Guesser</Tittle>
-        <TextContainer>
-          Pense em um número primo de 1 a 20000, e eu irei adivinha-lo. Quantas
-          tentativas irei precisar?
-        </TextContainer>
-        <TextField
-          placeholder="Digite o seu nome"
-          keyboardType={"default"}
-          inputName={"playerName"}
-          input={inputs}
-          setInput={setInputs}
-          width={"300px"}
-        />
-        <Button
-          onClick={onSubmit}
-          label={"Começar!"}
-          disabled={!isValidInputs()}
-        />
+        <GeneralContainer>
+          <GeneralTextsContainer>
+            <Tittle>Prime Guesser!</Tittle>
+            <TextContainer>
+              Pense em um número primo de 1 a 20000, e eu irei adivinha-lo.
+              Quantas tentativas irei precisar?
+            </TextContainer>
+            <TextField
+              placeholder="Digite o seu nome"
+              keyboardType={"default"}
+              inputName={"playerName"}
+              input={inputs}
+              setInput={setInputs}
+              width={"300px"}
+            />
+          </GeneralTextsContainer>
+          <Button
+            onClick={onSubmit}
+            label={"COMEÇAR"}
+            disabled={!isValidInputs()}
+            isStart={true}
+          />
+        </GeneralContainer>
       </InfoContainer>
-      <Footer left={false}>
-        <TextContainer>
-          <Button onClick={handleRanking} label={"Ver Ranking"} />
-        </TextContainer>
-      </Footer>
-      <Footer left>
-        <TextContainer>
-          <Button onClick={handleRanking} label={"Números Primos"} />
-        </TextContainer>
+      <Footer>
+        <Button onClick={handleRanking} label={"Ver Primos"} />
+        <Button onClick={handleRanking} label={"Ranking"} />
       </Footer>
     </Container>
   );
