@@ -9,23 +9,29 @@ Aplicativo desenvolvido utilizando React Native com Expo.
 
 ## Instalação
 
-<h3> Configuração do servidor </h3>
-  Primeiramente, você deverá configurar o serverIP com o ip da sua máquina local. Essa configuração permite que integre a API (que estará
+Primeiramente: 
+```bash
+npm install
+
+```
+
+<h4> Configuração do servidor </h4>
+
+  Você deverá configurar o serverIP com o ip da sua máquina local. Essa configuração permite que integre a API (que estará
   rodando localmente) com o aplicativo. Para descobrir o ip da sua máquina (em sistemas linux), basta abrir o terminal e digitar:
   
+  
   ```bash
-    ifconfig
+    hostname -I
   ```
   
-  Encontre, na resposta do seu comando, o valor ao lado da palavra "inet". Copie esse endereço e cole como valor na constante serverIp,
-  localizada em:
+  Copie esse endereço e cole como valor na constante serverIp, localizada em:
   
   ```bash
     app/src/utils/constants.js
   ```
   Agora o aplicativo já está se comunicando com a API local :)
 
-  Esse projeto utiliza o node como gerenciador de pacotes. Portanto, caso não o tenha no seu ambiente, instale-o por favor.
   Após a instalação, execute o comando:
 
 ```bash
