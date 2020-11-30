@@ -1,8 +1,14 @@
+// libs
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, FlatList, Text } from "react-native";
+import { FlatList, Text } from "react-native";
 
+// services
 import Api from "../../services/api";
 
+// utils
+import { Container, Tittle, Header } from "../../utils/generalStyles";
+
+// styles
 import {
   Card,
   LeftInfo,
@@ -13,13 +19,6 @@ import {
   PlayerName,
   Attempts,
 } from "./style";
-
-import {
-  Container,
-  InfoContainer,
-  Tittle,
-  Header,
-} from "../../utils/generalStyles";
 
 export default function Ranking({ navigation }) {
   const [rankingData, setRankingData] = useState([]);

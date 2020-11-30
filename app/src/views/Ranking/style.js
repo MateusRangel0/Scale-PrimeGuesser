@@ -27,7 +27,10 @@ export const LeftInfo = styled.View`
 export const RightInfo = styled.View``;
 
 export const Time = styled.Text`
+  font-size: 18px;
   font-weight: bold;
+
+  color: white;
 `;
 
 export const Position = styled.View`
