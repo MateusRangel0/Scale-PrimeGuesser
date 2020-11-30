@@ -3,11 +3,17 @@ import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// services
+import Api from "../../services/api";
+
 // components
 import ErrorModal from "../../components/Game/ErrorModal";
 import Timer from "../../components/Game/Timer";
 import ActionButtons from "../../components/Game/ActionButtons";
 import Clues from "../../components/Game/Clues";
+
+// util
+import { formatTime } from "../../utils/time";
 
 // styles
 import {
@@ -86,9 +92,29 @@ export default function GameClues({ navigation, route }) {
     setActiveTimer(false);
   }
 
-  function finishGame(time) {
+  async function submitScore(playerTime) {
+    const body = {
+      playerName: playerInfo.name,
+      time: formatTime(playerTime),
+      attempts: attempts,
+      primeNumber: valueInfo.currentValue,
+    };
+    try {
+      const { playerName, time, attempts, primeNumber } = body;
+
+      if (!playerName || !time || !attempts || !primeNumber) {
+        return setModalVisible(true);
+      }
+      await Api.post(`/ranking`, body);
+      return navigation.replace("Result", body);
+    } catch (error) {
+      setModalVisible(true);
+    }
+  }
+
+  async function finishGame(time) {
     if (!isModalVisible) {
-      console.log(time);
+      submitScore(time);
     } else {
       console.log("error :[");
     }
@@ -98,7 +124,7 @@ export default function GameClues({ navigation, route }) {
     <Container>
       <ErrorModal
         isVisible={isModalVisible}
-        label={"Não há mais números válidos. Tente novamente."}
+        label={"Algo deu errado nessa rodada. Tente novamente."}
         onClose={() => reset()}
         buttonLabel={"Reiniciar"}
       />
