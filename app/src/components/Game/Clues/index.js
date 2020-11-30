@@ -11,7 +11,12 @@ import {
 } from "../../../utils/generalFunctions";
 
 // styles
-import { InfoContainer, ClueContainer, ClueInput } from "./style";
+import {
+  InfoContainer,
+  ClueContainer,
+  ClueInput,
+  IconContainer,
+} from "./style";
 
 export default function Clues({
   primes,
@@ -115,7 +120,7 @@ export default function Clues({
   }
 
   return (
-    <View>
+    <InfoContainer>
       <ClueContainer>
         <ClueInput
           placeholder={"Soma dos digitos"}
@@ -125,9 +130,9 @@ export default function Clues({
           ref={refSum}
           editable={inputsActive.sum}
         />
-        <TouchableOpacity onPress={() => handleClueSum(clues.sum)}>
-          <Icon name="send" size={22} />
-        </TouchableOpacity>
+        <IconContainer onPress={() => handleClueSum(clues.sum)}>
+          <Icon name="send" size={22} color={"#8e44ad"} />
+        </IconContainer>
       </ClueContainer>
       <ClueContainer>
         <ClueInput
@@ -138,9 +143,9 @@ export default function Clues({
           ref={refProduct}
           editable={inputsActive.product}
         />
-        <TouchableOpacity onPress={() => handleClueProduct(clues.product)}>
-          <Icon name="send" size={22} />
-        </TouchableOpacity>
+        <IconContainer onPress={() => handleClueProduct(clues.product)}>
+          <Icon name="send" size={22} color={"#8e44ad"} />
+        </IconContainer>
       </ClueContainer>
       <ClueContainer>
         <ClueInput
@@ -151,10 +156,10 @@ export default function Clues({
           ref={refRest}
           editable={inputsActive.rest}
         />
-        <TouchableOpacity onPress={() => handleClueRest(clues.rest)}>
-          <Icon name="send" size={22} />
-        </TouchableOpacity>
+        <IconContainer onPress={() => handleClueRest(clues.rest)}>
+          <Icon name="send" size={22} color={"#8e44ad"} />
+        </IconContainer>
       </ClueContainer>
-    </View>
+    </InfoContainer>
   );
 }
