@@ -16,6 +16,7 @@ import {
   InfoContainer,
   Tittle,
   Footer,
+  ScrollContainer,
 } from "../../utils/generalStyles";
 import { GeneralContainer, GeneralTextsContainer } from "./style";
 
@@ -54,34 +55,37 @@ export default function Home({ navigation }) {
 
   return (
     <Container>
-      <InfoContainer>
-        <GeneralContainer>
-          <GeneralTextsContainer>
-            <Tittle>Prime Guesser!</Tittle>
-            <TextContainer>
-              Pense em um número primo de 1 a 20000, e eu irei adivinha-lo.
-              Quantas tentativas irei precisar?
-            </TextContainer>
-            <TextField
-              placeholder="Digite o seu nome"
-              keyboardType={"default"}
-              inputName={"playerName"}
-              input={inputs}
-              setInput={setInputs}
-              width={"300px"}
+      <ScrollContainer>
+        <InfoContainer>
+          <GeneralContainer>
+            <GeneralTextsContainer>
+              <Tittle>Prime Guesser!</Tittle>
+              <TextContainer>
+                Pense em um número primo de 1 a 20000, e eu irei adivinha-lo.
+                Quantas tentativas irei precisar?
+              </TextContainer>
+              <TextField
+                placeholder="Digite o seu nome"
+                keyboardType={"default"}
+                inputName={"playerName"}
+                input={inputs}
+                setInput={setInputs}
+                width={"300px"}
+                onSubmitEditing={onSubmit}
+              />
+            </GeneralTextsContainer>
+            <Button
+              onClick={onSubmit}
+              label={"COMEÇAR"}
+              disabled={!isValidInputs()}
+              isStart={true}
             />
-          </GeneralTextsContainer>
-          <Button
-            onClick={onSubmit}
-            label={"COMEÇAR"}
-            disabled={!isValidInputs()}
-            isStart={true}
-          />
-        </GeneralContainer>
-      </InfoContainer>
-      <Footer>
-        <Button onClick={handleRanking} label={"Ranking"} />
-      </Footer>
+          </GeneralContainer>
+          <Footer>
+            <Button onClick={handleRanking} label={"Ranking"} />
+          </Footer>
+        </InfoContainer>
+      </ScrollContainer>
     </Container>
   );
 }
