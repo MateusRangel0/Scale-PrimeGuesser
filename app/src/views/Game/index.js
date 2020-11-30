@@ -110,7 +110,6 @@ export default function GameClues({ navigation, route }) {
       }
       setLoading(true);
       await Api.post(`/ranking`, body);
-      setLoading(false);
       return navigation.replace("Result", body);
     } catch (error) {
       setModalVisible(true);
@@ -118,7 +117,7 @@ export default function GameClues({ navigation, route }) {
   }
 
   async function finishGame(time) {
-    if (!isModalVisible) {
+    if (!isModalVisible && !loading) {
       submitScore(time);
     }
   }
