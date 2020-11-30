@@ -22,11 +22,10 @@ npm install
   
   
   ```bash
-    ifconfig
+    hostname -I
   ```
   
-  Encontre, na resposta do seu comando, o valor ao lado da palavra "inet". Copie esse endereço e cole como valor na constante serverIp,
-  localizada em:
+  Copie esse endereço e cole como valor na constante serverIp, localizada em:
   
   ```bash
     app/src/utils/constants.js
