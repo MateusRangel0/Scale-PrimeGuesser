@@ -37,7 +37,9 @@ export default function Ranking({ navigation }) {
     return (
       <Card>
         <LeftInfo>
-          <Position>{index + 1}</Position>
+          <Position>
+            <Text>{index + 1}</Text>
+          </Position>
           <PlayerInfo>
             <PlayerName>{item.playerName}</PlayerName>
             <Attempts>Tentativas: {item.attempts}</Attempts>

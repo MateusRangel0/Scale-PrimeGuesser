@@ -12,10 +12,10 @@ export const Card = styled.View`
   background-color: #ac7ebf;
 
   margin-bottom: 10px;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 15px;
 
-  height: 75px;
+  height: 85px;
   width: ${windowWidth / 1.2}px;
 `;
 
@@ -29,7 +29,7 @@ export const RightInfo = styled.View``;
 export const Time = styled.Text``;
 
 export const Position = styled.View`
-  border-radius: 50;
+  border-radius: 50px;
   background-color: aliceblue;
 
   align-items: center;
