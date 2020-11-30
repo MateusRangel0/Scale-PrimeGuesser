@@ -17,10 +17,17 @@ export default function ActionButtons({
   setValueInfo,
   setAttempts,
   setCalledNumbers,
+  setActiveTimer,
   getCurrentValue,
   correctNumberFunction,
+  maxIndex,
+  minIndex,
 }) {
   function handleMissNumber(condition) {
+    if (maxIndex === minIndex) {
+      setActiveTimer(false);
+      return setModalVisible(true);
+    }
     const newValue = {
       ...valueInfo,
     };
