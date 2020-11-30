@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const GeneralTextContainer = styled.View`
-  flex: 1.3;
+  flex: 0.8;
 
   align-items: center;
   justify-content: center;
