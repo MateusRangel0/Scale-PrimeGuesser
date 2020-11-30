@@ -16,7 +16,6 @@ import {
   InfoContainer,
   Tittle,
   Footer,
-  Header,
 } from "../../utils/generalStyles";
 import { GeneralContainer, GeneralTextsContainer } from "./style";
 
@@ -81,7 +80,6 @@ export default function Home({ navigation }) {
         </GeneralContainer>
       </InfoContainer>
       <Footer>
-        <Button onClick={handleRanking} label={"Ver Primos"} />
         <Button onClick={handleRanking} label={"Ranking"} />
       </Footer>
     </Container>
