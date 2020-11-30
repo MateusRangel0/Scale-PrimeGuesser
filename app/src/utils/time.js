@@ -3,5 +3,5 @@ export function formatTime(time) {
   let currentMs = zeroPad(time.ms);
   let currentSec = zeroPad(time.seconds, 2);
   let currentMin = zeroPad(time.minutes, 2);
-  return `${currentMin}:${currentSec}.${currentMs.substring(0, 2)}`;
+  return `${currentMin}:${currentSec}:${currentMs.substring(0, 2)}`;
 }
