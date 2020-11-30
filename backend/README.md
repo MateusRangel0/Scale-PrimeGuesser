@@ -1,7 +1,7 @@
 <h1 align="center">Prime Guesser!</h1>
 <p align="center">
-  <a aria-label="Versão do Node" href="https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V12.md#12.14.1">
-    <img src="https://img.shields.io/badge/node.js@lts-12.14.1-informational?logo=Node.JS"></img>
+  <a aria-label="Versão do Node" href="https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V14.md#14.0.0">
+    <img src="https://img.shields.io/badge/node.js@lts-14.0.0-informational?logo=Node.JS"></img>
   </a>
  </p> 
 
