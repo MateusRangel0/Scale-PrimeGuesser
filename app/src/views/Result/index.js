@@ -14,13 +14,7 @@ import {
 } from "../../utils/generalStyles";
 
 export default function Result({ navigation, route }) {
-  const [player, setPlayer] = useState({});
-
-  useEffect(() => {
-    setPlayer(route.params);
-  }, [route.params]);
-
-  useEffect(() => console.log(player), [player]);
+  const player = route.params;
 
   function handleRanking() {
     navigation.replace("Ranking");
@@ -39,15 +33,9 @@ export default function Result({ navigation, route }) {
           {player.primeNumber} e só levei {player.attempts} tentativa(s).
         </TextContainer>
       </InfoContainer>
-      <Footer left={false}>
-        <TextContainer>
-          <Button onClick={handleRanking} label={"Ver Ranking"} />
-        </TextContainer>
-      </Footer>
-      <Footer left>
-        <TextContainer>
-          <Button onClick={handleHome} label={"Página inicial"} />
-        </TextContainer>
+      <Footer>
+        <Button onClick={handleHome} label={"Página inicial"} />
+        <Button onClick={handleRanking} label={"Ver Ranking"} />
       </Footer>
     </Container>
   );
