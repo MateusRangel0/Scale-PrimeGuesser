@@ -59,6 +59,7 @@ export default function GameClues({ navigation, route }) {
     setModalVisible(false);
     setTimerReload(true);
     setActiveTimer(true);
+    setLoading(false);
   }
 
   async function loadPrimes() {
@@ -103,12 +104,12 @@ export default function GameClues({ navigation, route }) {
       primeNumber: valueInfo.currentValue,
     };
     try {
+      setLoading(true);
       const { playerName, time, attempts, primeNumber } = body;
 
       if (!playerName || !time || !attempts || !primeNumber) {
         return setModalVisible(true);
       }
-      setLoading(true);
       await Api.post(`/ranking`, body);
       return navigation.replace("Result", body);
     } catch (error) {
