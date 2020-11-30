@@ -32,7 +32,6 @@ npm install
   ```
   Agora o aplicativo já está se comunicando com a API local :)
 
-  Esse projeto utiliza o node como gerenciador de pacotes. Portanto, caso não o tenha no seu ambiente, instale-o por favor.
   Após a instalação, execute o comando:
 
 ```bash
