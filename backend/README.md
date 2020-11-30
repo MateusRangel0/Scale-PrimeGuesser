@@ -11,6 +11,12 @@ Backend desenvolvido utilizando Node.js e SQlite3.
    Tenha certeza de ter o npm instalado no seu ambiente. Caso tenha, Basta rodar o comando:
   
   ```bash
+    npm install
+  ```
+  
+E agora: 
+
+  ```bash
     npm start
   ```
   
