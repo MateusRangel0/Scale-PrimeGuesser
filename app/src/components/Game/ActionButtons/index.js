@@ -1,12 +1,11 @@
 // libs
 import React from "react";
-import { Text } from "react-native";
 
 // utils
 import { NEXT_NUMBER_CONDITION } from "../../../utils/constants";
 
 // styles
-import { ButtonsContainer, ConditionButton } from "./style";
+import { ButtonsContainer, ConditionButton, ButtonLabel } from "./style";
 
 export default function ActionButtons({
   primes,
@@ -65,17 +64,20 @@ export default function ActionButtons({
       <ConditionButton
         onPress={() => handleMissNumber(NEXT_NUMBER_CONDITION.DOWN)}
       >
-        <Text>MENOR</Text>
+        <ButtonLabel>MENOR</ButtonLabel>
       </ConditionButton>
 
-      <ConditionButton onPress={() => correctNumberFunction()}>
-        <Text>ACERTOU</Text>
+      <ConditionButton
+        onPress={() => correctNumberFunction()}
+        isCorrectButton={true}
+      >
+        <ButtonLabel>ACERTOU</ButtonLabel>
       </ConditionButton>
 
       <ConditionButton
         onPress={() => handleMissNumber(NEXT_NUMBER_CONDITION.UPPER)}
       >
-        <Text>MAIOR</Text>
+        <ButtonLabel>MAIOR</ButtonLabel>
       </ConditionButton>
     </ButtonsContainer>
   );
