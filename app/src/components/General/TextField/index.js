@@ -1,6 +1,8 @@
+// libs
 import React from "react";
 import { View } from "react-native";
 
+// styles
 import { Input } from "./style";
 
 export default function TextField({

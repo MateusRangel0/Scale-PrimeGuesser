@@ -1,5 +1,7 @@
+// libs
 import React from "react";
 
+// styles
 import { ButtonContainer, NormalButton, Label } from "./style";
 
 export default function Button({ onClick, label, disabled, isStart }) {
