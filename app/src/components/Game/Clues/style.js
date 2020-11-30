@@ -8,7 +8,7 @@ export const InfoContainer = styled.View`
 export const ClueContainer = styled.View`
   flex-direction: row;
 
-  margin-bottom: 10px;
+  margin-top: 20px;
 
   align-items: center;
   justify-content: center;

@@ -73,50 +73,56 @@ export default function Clues({
   }
 
   function handleClueSum(sum) {
-    refSum.current.clear();
-    setInputsActive({ ...inputsActive, sum: false });
-    const maxPrime = Number(primes[maxIndex]);
-    const minPrime = Number(primes[minIndex]);
+    if (sum) {
+      refSum.current.clear();
+      setInputsActive({ ...inputsActive, sum: false });
+      const maxPrime = Number(primes[maxIndex]);
+      const minPrime = Number(primes[minIndex]);
 
-    const newPrimes = primes.filter(
-      (prime) =>
-        getDigitsSum(prime) === Number(sum) &&
-        prime <= maxPrime &&
-        prime >= minPrime
-    );
-    updatePrimes(newPrimes);
+      const newPrimes = primes.filter(
+        (prime) =>
+          getDigitsSum(prime) === Number(sum) &&
+          prime <= maxPrime &&
+          prime >= minPrime
+      );
+      updatePrimes(newPrimes);
+    }
   }
 
   useEffect(() => {}, [minIndex, maxIndex]);
 
   function handleClueProduct(product) {
-    refProduct.current.clear();
-    setInputsActive({ ...inputsActive, product: false });
-    const maxPrime = Number(primes[maxIndex]);
-    const minPrime = Number(primes[minIndex]);
+    if (product) {
+      refProduct.current.clear();
+      setInputsActive({ ...inputsActive, product: false });
+      const maxPrime = Number(primes[maxIndex]);
+      const minPrime = Number(primes[minIndex]);
 
-    const newPrimes = primes.filter(
-      (prime) =>
-        getDigitsProduct(prime) === Number(product) &&
-        prime <= maxPrime &&
-        prime >= minPrime
-    );
-    updatePrimes(newPrimes);
+      const newPrimes = primes.filter(
+        (prime) =>
+          getDigitsProduct(prime) === Number(product) &&
+          prime <= maxPrime &&
+          prime >= minPrime
+      );
+      updatePrimes(newPrimes);
+    }
   }
 
   function handleClueRest(rest) {
-    refRest.current.clear();
-    const maxPrime = Number(primes[maxIndex]);
-    const minPrime = Number(primes[minIndex]);
+    if (rest) {
+      refRest.current.clear();
+      const maxPrime = Number(primes[maxIndex]);
+      const minPrime = Number(primes[minIndex]);
 
-    setInputsActive({ ...inputsActive, rest: false });
-    const newPrimes = primes.filter(
-      (prime) =>
-        getDivisionRest(prime) === Number(rest) &&
-        prime <= maxPrime &&
-        prime >= minPrime
-    );
-    updatePrimes(newPrimes);
+      setInputsActive({ ...inputsActive, rest: false });
+      const newPrimes = primes.filter(
+        (prime) =>
+          getDivisionRest(prime) === Number(rest) &&
+          prime <= maxPrime &&
+          prime >= minPrime
+      );
+      updatePrimes(newPrimes);
+    }
   }
 
   return (

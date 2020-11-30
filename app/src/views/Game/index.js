@@ -34,9 +34,9 @@ export default function GameClues({ navigation, route }) {
   const [attempts, setAttempts] = useState(1);
   const [loading, setLoading] = useState(false);
   const [clues, setClues] = useState({
-    sum: 0,
-    product: 0,
-    rest: 0,
+    sum: null,
+    product: null,
+    rest: null,
   });
   const [valueInfo, setValueInfo] = useState({
     indexMin: 0,
