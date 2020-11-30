@@ -15,7 +15,7 @@ export function getDigitsProduct(number) {
 
   while (value) {
     const digit = value % 10;
-    if (value) product *= digit;
+    if (digit) product *= digit;
     value = Math.floor(value / 10);
   }
   return product;
